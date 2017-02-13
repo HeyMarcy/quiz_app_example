@@ -55,15 +55,15 @@ const setRoute = (state, route) => state.route = route;
 
 
 const resetGame = state => {
-  score = 0;
-  currentQuestionIndex = 0;
+  state.score = 0;
+  state.currentQuestionIndex = 0;
   setRoute(state, 'start');
 };
 
 //changed to es6 function declaration style
 // wondering if "state." can be omitted"
 const answerQuestion = (state, answer) => {
-  let currentQuestion = state.questions[state.currentQuestionIndex];
+  const currentQuestion = state.questions[state.currentQuestionIndex];
     state. lastAnswerCorrect = currentQuestion.correctChoiceIndex === answer;
   if (state.lastAnswerCorrect) {
     state.score++;
@@ -136,6 +136,7 @@ const renderFinalFeedbackPage = (state, element) => {
 const renderQuestionCount = (state, element) => {
   const text = (state.currentQuestionIndex + 1) + "/" + state.questions.length;
   element.text(text);
+  console.log(text);
 };
 
 const renderQuestionText = (state, element) => {
@@ -143,9 +144,9 @@ const renderQuestionText = (state, element) => {
   element.text(currentQuestion.text);
 };
 
-const renderChoices = (state, element) => {
-  const currentQuestion = state.questions[state.currentQuestionIndex];
-  const choices = currentQuestion.choices.map((choice, index) =>
+var renderChoices = (state, element) => {
+  var currentQuestion = state.questions[state.currentQuestionIndex];
+  var choices = currentQuestion.choices.map((choice, index) =>
     `<li>
       <input type="radio" name="user-answer" value="${index}" required>
       <label>${choice}</label>
@@ -154,7 +155,7 @@ const renderChoices = (state, element) => {
   element.html(choices);
 };
 
-function renderAnswerFeedbackHeader(state, element) {
+var renderAnswerFeedbackHeader = (state, element) => {
   var html = state.lastAnswerCorrect ?
       "<h6 class='user-was-correct'>correct</h6>" :
       "<h1 class='user-was-incorrect'>Wrooonnnngggg!</>";
@@ -162,21 +163,20 @@ function renderAnswerFeedbackHeader(state, element) {
   element.html(html);
 };
 
-function renderAnswerFeedbackText(state, element) {
+var renderAnswerFeedbackText = (state, element) => {
   var choices = state.lastAnswerCorrect ? state.praises : state.admonishments;
   var text = choices[Math.floor(state.feedbackRandom * choices.length)];
   element.text(text);
 };
 
-function renderNextButtonText(state, element) {
-    var text = state.currentQuestionIndex < state.questions.length - 1 ?
+var renderNextButtonText = (state, element) => {
+  var text = state.currentQuestionIndex < state.questions.length - 1 ?
       "Next" : "How did I do?";
   element.text(text);
 };
 
-function renderFinalFeedbackText(state, element) {
-  var text = "You got " + state.score + " out of " +
-    state.questions.length + " questions right.";
+var renderFinalFeedbackText = (state, element) => {
+  var text = `You got ${state.score} out of ${state.questions.length} questions right.` ;
   element.text(text);
 };
 
