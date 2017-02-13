@@ -1,5 +1,5 @@
 // State object
-const state = {
+var state = {
   questions: [
     {
       text: "Which number am I thinking of?",
@@ -47,24 +47,19 @@ const state = {
 };
 
 // State modification functions
+function setRoute(state, route) {
+  state.route = route;
+};
 
-// function setRoute(state, route) {
-//   state.route = route;
-// };
-const setRoute = (state, route) => state.route = route;
-
-
-const resetGame = state => {
-  score = 0;
-  currentQuestionIndex = 0;
+function resetGame(state) {
+  state.score = 0;
+  state.currentQuestionIndex = 0;
   setRoute(state, 'start');
 };
 
-//changed to es6 function declaration style
-// wondering if "state." can be omitted"
-const answerQuestion = (state, answer) => {
-  let currentQuestion = state.questions[state.currentQuestionIndex];
-    state. lastAnswerCorrect = currentQuestion.correctChoiceIndex === answer;
+function answerQuestion(state, answer) {
+  var currentQuestion = state.questions[state.currentQuestionIndex];
+  state.lastAnswerCorrect = currentQuestion.correctChoiceIndex === answer;
   if (state.lastAnswerCorrect) {
     state.score++;
   }
@@ -72,11 +67,11 @@ const answerQuestion = (state, answer) => {
   setRoute(state, 'answer-feedback');
 };
 
-const selectFeedback = state => { state.feedbackRandom = Math.random() };
+function selectFeedback(state) {
+  state.feedbackRandom = Math.random();
+};
 
-
-//Can we use a ternary operator here?
-const advance = state => {
+function advance(state) {
   state.currentQuestionIndex++;
   if (state.currentQuestionIndex === state.questions.length) {
     setRoute(state, 'final-feedback');
@@ -86,12 +81,10 @@ const advance = state => {
   }
 };
 
-
-// refactor using 'lookup' 'class'
 // Render functions
-const renderApp = (state, elements) => {
+function renderApp(state, elements) {
   // default to hiding all routes, then show the current route
-  Object.keys(elements).forEach(route => {
+  Object.keys(elements).forEach(function(route) {
     elements[route].hide();
   });
   elements[state.route].show();
@@ -114,36 +107,36 @@ const renderApp = (state, elements) => {
 // the start page is preloaded in our HTML, but we've included
 // the function and used above in our routing system so that this
 // application view is accounted for in our system
-const renderStartPage = (state, element) => {
+function renderStartPage(state, element) {
 };
 
-const renderQuestionPage = (state, element) => {
+function renderQuestionPage(state, element) {
   renderQuestionCount(state, element.find('.question-count'));
   renderQuestionText(state, element.find('.question-text'));
   renderChoices(state, element.find('.choices'));
 };
 
-const renderAnswerFeedbackPage = (state, element) => {
+function renderAnswerFeedbackPage(state, element) {
   renderAnswerFeedbackHeader(state, element.find(".feedback-header"));
   renderAnswerFeedbackText(state, element.find(".feedback-text"));
   renderNextButtonText(state, element.find(".see-next"));
 };
 
-const renderFinalFeedbackPage = (state, element) => {
+function renderFinalFeedbackPage(state, element) {
   renderFinalFeedbackText(state, element.find('.results-text'));
 };
 
-const renderQuestionCount = (state, element) => {
+function renderQuestionCount(state, element) {
   var text = (state.currentQuestionIndex + 1) + "/" + state.questions.length;
   element.text(text);
 };
 
-const renderQuestionText = (state, element) => {
+function renderQuestionText(state, element) {
   var currentQuestion = state.questions[state.currentQuestionIndex];
   element.text(currentQuestion.text);
 };
 
-const renderChoices = (state, element) => {
+function renderChoices(state, element) {
   var currentQuestion = state.questions[state.currentQuestionIndex];
   var choices = currentQuestion.choices.map(function(choice, index) {
     return (
