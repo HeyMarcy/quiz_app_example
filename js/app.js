@@ -134,25 +134,23 @@ const renderFinalFeedbackPage = (state, element) => {
 };
 
 const renderQuestionCount = (state, element) => {
-  var text = (state.currentQuestionIndex + 1) + "/" + state.questions.length;
+  const text = (state.currentQuestionIndex + 1) + "/" + state.questions.length;
   element.text(text);
 };
 
 const renderQuestionText = (state, element) => {
-  var currentQuestion = state.questions[state.currentQuestionIndex];
+  const currentQuestion = state.questions[state.currentQuestionIndex];
   element.text(currentQuestion.text);
 };
 
 const renderChoices = (state, element) => {
-  var currentQuestion = state.questions[state.currentQuestionIndex];
-  var choices = currentQuestion.choices.map(function(choice, index) {
-    return (
-      '<li>' +
-        '<input type="radio" name="user-answer" value="' + index + '" required>' +
-        '<label>' + choice + '</label>' +
-      '</li>'
-    );
-  });
+  const currentQuestion = state.questions[state.currentQuestionIndex];
+  const choices = currentQuestion.choices.map((choice, index) =>
+    `<li>
+      <input type="radio" name="user-answer" value="${index}" required>
+      <label>${choice}</label>
+    </li>`
+  );
   element.html(choices);
 };
 
